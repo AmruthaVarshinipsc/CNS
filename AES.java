@@ -1,20 +1,28 @@
+
+
 import javax.crypto.*;
+import java.util.Scanner;
+
 public class AES {
     public static void main(String[] a) throws Exception {
-        var msg = "AES still rocks!!";
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Input your message: ");
+        var msg = sc.nextLine();
+
         var k = KeyGenerator.getInstance("AES");
         k.init(128);
         var key = k.generateKey();
         var c = Cipher.getInstance("AES");
-        
+
         c.init(Cipher.ENCRYPT_MODE, key);
         var enc = c.doFinal(msg.getBytes());
-        System.out.println("Encrypted string: " + hex(enc));
-        
+        System.out.println("Encrypted text (hex) : " + hex(enc));
+
         c.init(Cipher.DECRYPT_MODE, key);
         var dec = c.doFinal(enc);
-        System.out.println("Original string: " + new String(dec) + " HEX: " + hex(dec));
+        System.out.println("Decrypted text: " + new String(dec));
     }
+
     static String hex(byte[] b) {
         var s = new StringBuilder();
         for (byte x : b) s.append(String.format("%02x", x));
@@ -22,8 +30,8 @@ public class AES {
     }
 }
 
-
-
 OUTPUT:
-Encrypted string: c0e0a08ae201fddc8ab8c762c52de9765e40601b652650d4123b37c0e5b99ffc
-Original string: AES still rocks!! HEX: 414553207374696c6c20726f636b732121
+Input your message: hii hello
+Encrypted text (hex) : cfa89aa2fd49f19f71dd8348199132c9
+Decrypted text: hii hello
+    
